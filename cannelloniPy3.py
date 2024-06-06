@@ -26,7 +26,19 @@ class FramesQueue:
         self.count = count
         self.frames = [CanfdFrame() for _ in range(count)]
 
-    def put(self, frame): 
+    def put(self, frame):
+        """Put a frame into the circular buffer.
+
+        This method puts a frame into the circular buffer. If the buffer is
+        full, it returns None.
+
+        Args:
+            frame: The frame to be added to the buffer.
+
+        Returns:
+            The frame that was added to the buffer, or None if the buffer is full.
+        """
+ 
         if (self.tail + 1) % self.count == self.head:
             return None
         self.frames[self.tail] = frame
@@ -34,6 +46,15 @@ class FramesQueue:
         return frame
 
     def take(self):
+        """Returns and removes the first element from the queue.
+
+        This method returns and removes the first element from the queue. If the
+        queue is empty, it returns None.
+
+        Returns:
+            Any: The first element from the queue, or None if the queue is empty.
+        """
+
         if self.head == self.tail:
             return None
         frame = self.frames[self.head]
@@ -41,6 +62,16 @@ class FramesQueue:
         return frame
 
     def peek(self):
+        """Return the first element of the stack without removing it.
+
+        This method returns the first element of the stack without removing it
+        from the stack.
+
+        Returns:
+            object or None: The first element of the stack, or None if the stack is
+                empty.
+        """
+
         if self.head == self.tail:
             return None
         return self.frames[self.head]
@@ -65,6 +96,17 @@ class CannelloniHandle:
 
     # Handle the received Cannelloni frame
     def handle_cannelloni_frame(handle, data, addr):
+        """Handle the received Cannelloni frame.
+
+        This function processes the received Cannelloni frame data and adds the
+        CAN frame to the receive queue.
+
+        Args:
+            handle (object): The handle to the Cannelloni interface.
+            data (bytes): The received data packet.
+            addr (tuple): The address from which the data was received.
+        """
+
         try:
             if len(data) < CANNELLONI_DATA_PACKET_BASE_SIZE:
                 print("Cannellonipy lib: Received incomplete packet")
@@ -105,6 +147,16 @@ class CannelloniHandle:
             return
 
     def get_received_can_frames(self):
+        """Retrieves all received CAN frames from the receive queue.
+
+        This method continuously retrieves frames from the receive queue until
+        it encounters a None value, indicating the end of the queue. It then
+        clears the received CAN frames from the queue.
+
+        Returns:
+            list: A list of received CAN frames.
+        """
+
         frames = []
         while True:
             frame = self.rx_queue.take()
@@ -115,6 +167,15 @@ class CannelloniHandle:
         return frames
 
     def clear_received_can_frames(self):
+        """Clear the received CAN frames from the receive queue.
+
+        This method continuously takes frames from the receive queue until it is
+        empty.
+
+        Args:
+            self: The object instance.
+        """
+
         while True:
             frame = self.rx_queue.take()
             if frame is None:
@@ -123,6 +184,20 @@ class CannelloniHandle:
 # ---------------------------- Execution ----------------------------
 # Run the Cannellonipy library
 def run_cannellonipy(handle, remote_addr, remote_port):
+    """Run the Cannellonipy library.
+
+    This function initializes the Cannellonipy library with the provided
+    remote address and port. It then opens the UDP socket and mocks the
+    opening of the CAN socket. If either of the sockets fails to open, it
+    prints a failure message and returns without starting any service
+    threads.
+
+    Args:
+        handle: The handle for the Cannellonipy library.
+        remote_addr (str): The remote address to connect to.
+        remote_port (int): The remote port to connect to.
+    """
+
     print("Running Cannellonipy...")
     handle.Init["remote_addr"] = remote_addr
     handle.Init["remote_port"] = int(remote_port)
@@ -146,6 +221,16 @@ def run_cannellonipy(handle, remote_addr, remote_port):
 
 # Create a UDP socket (send/receive)
 def open_udp_socket(handle):
+    """Create a UDP socket for sending and receiving data.
+
+    This function creates a UDP socket using the provided handle's remote
+    address and port. It then binds the socket to the remote address and
+    port.
+
+    Args:
+        handle (object): The handle object containing remote address and port information.
+    """
+
     try:
         handle.udp_pcb = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Check with cmd:  sudo tcpdump -i any udp port 1234 -X
         
@@ -161,6 +246,16 @@ def open_udp_socket(handle):
 
 # Create a CAN socket (send/receive)
 def open_can_socket(handle):
+    """Create a CAN socket for sending and receiving data.
+
+    This function creates a CAN socket for sending and receiving data. It
+    checks if the handle has a CAN PCB and prints success or failure
+    messages accordingly.
+
+    Args:
+        handle: The handle for the CAN socket.
+    """
+
     try:
         # TODO
         if not handle.can_pcb:
@@ -174,6 +269,16 @@ def open_can_socket(handle):
 
 # Transmit CAN frames over UDP
 def transmit_udp_packets(handle):
+    """Transmit CAN frames over UDP.
+
+    This function transmits CAN frames over UDP by packing the frame data
+    and sending it to the specified remote IP and address.
+
+    Args:
+        handle (obj): The handle object containing the necessary parameters and data for
+            transmitting UDP packets.
+    """
+
     try:
         while True:
             frame = handle.tx_queue.take()
@@ -190,6 +295,16 @@ def transmit_udp_packets(handle):
 
 # Receive UDP packets
 def receive_udp_packets(handle):
+    """Receive UDP packets and handle them using the provided handle.
+
+    This function continuously receives UDP packets using the given handle
+    and calls the 'handle_cannelloni_frame' method to process the received
+    data.
+
+    Args:
+        handle (obj): The handle object used to receive and process UDP packets.
+    """
+
     try:
         while True:
             data, addr = handle.udp_pcb.recvfrom(1024)
