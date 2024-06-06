@@ -26,7 +26,31 @@ class FramesQueue:
         self.count = count
         self.frames = [CanfdFrame() for _ in range(count)]
 
-    def put(self, frame): 
+    def put(self, frame):
+        """Save the processed files map to a JSON file.
+
+        Function parameters should be documented in the ``Args`` section. The
+        name of each parameter is required. The type and description of each
+        parameter is optional, but should be included if not obvious.
+
+        Args:
+            dictionary (dict): The processed files map.
+
+        Returns:
+            bool: True if successful, False otherwise.
+            The return type is optional and may be specified at the beginning of
+            the ``Returns`` section followed by a colon.
+            The ``Returns`` section may span multiple lines and paragraphs.
+            Following lines should be indented to match the first line.
+            The ``Returns`` section supports any reStructuredText formatting,
+            including literal blocks::
+                
+                {
+                'param1': param1,
+                'param2': param2
+                }
+        """
+ 
         if (self.tail + 1) % self.count == self.head:
             return None
         self.frames[self.tail] = frame
@@ -34,6 +58,30 @@ class FramesQueue:
         return frame
 
     def take(self):
+        """Save the processed files map to a JSON file.
+
+        Function parameters should be documented in the ``Args`` section. The
+        name of each parameter is required. The type and description of each
+        parameter is optional, but should be included if not obvious.
+
+        Args:
+            dictionary (dict): The processed files map.
+
+        Returns:
+            bool: True if successful, False otherwise.
+            The return type is optional and may be specified at the beginning of
+            the ``Returns`` section followed by a colon.
+            The ``Returns`` section may span multiple lines and paragraphs.
+            Following lines should be indented to match the first line.
+            The ``Returns`` section supports any reStructuredText formatting,
+            including literal blocks::
+                
+                {
+                'param1': param1,
+                'param2': param2
+                }
+        """
+
         if self.head == self.tail:
             return None
         frame = self.frames[self.head]
@@ -41,6 +89,30 @@ class FramesQueue:
         return frame
 
     def peek(self):
+        """Save the processed files map to a JSON file.
+
+        Function parameters should be documented in the ``Args`` section. The
+        name of each parameter is required. The type and description of each
+        parameter is optional, but should be included if not obvious.
+
+        Args:
+            dictionary (dict): The processed files map.
+
+        Returns:
+            bool: True if successful, False otherwise.
+            The return type is optional and may be specified at the beginning of
+            the ``Returns`` section followed by a colon.
+            The ``Returns`` section may span multiple lines and paragraphs.
+            Following lines should be indented to match the first line.
+            The ``Returns`` section supports any reStructuredText formatting,
+            including literal blocks::
+                
+                {
+                'param1': param1,
+                'param2': param2
+                }
+        """
+
         if self.head == self.tail:
             return None
         return self.frames[self.head]
@@ -65,6 +137,30 @@ class CannelloniHandle:
 
     # Handle the received Cannelloni frame
     def handle_cannelloni_frame(handle, data, addr):
+        """Save the processed files map to a JSON file.
+
+        Function parameters should be documented in the ``Args`` section. The
+        name of each parameter is required. The type and description of each
+        parameter is optional, but should be included if not obvious.
+
+        Args:
+            dictionary (dict): The processed files map.
+
+        Returns:
+            bool: True if successful, False otherwise.
+            The return type is optional and may be specified at the beginning of
+            the ``Returns`` section followed by a colon.
+            The ``Returns`` section may span multiple lines and paragraphs.
+            Following lines should be indented to match the first line.
+            The ``Returns`` section supports any reStructuredText formatting,
+            including literal blocks::
+                
+                {
+                'param1': param1,
+                'param2': param2
+                }
+        """
+
         try:
             if len(data) < CANNELLONI_DATA_PACKET_BASE_SIZE:
                 print("Cannellonipy lib: Received incomplete packet")
@@ -105,6 +201,30 @@ class CannelloniHandle:
             return
 
     def get_received_can_frames(self):
+        """Save the processed files map to a JSON file.
+
+        Function parameters should be documented in the ``Args`` section. The
+        name of each parameter is required. The type and description of each
+        parameter is optional, but should be included if not obvious.
+
+        Args:
+            dictionary (dict): The processed files map.
+
+        Returns:
+            bool: True if successful, False otherwise.
+            The return type is optional and may be specified at the beginning of
+            the ``Returns`` section followed by a colon.
+            The ``Returns`` section may span multiple lines and paragraphs.
+            Following lines should be indented to match the first line.
+            The ``Returns`` section supports any reStructuredText formatting,
+            including literal blocks::
+                
+                {
+                'param1': param1,
+                'param2': param2
+                }
+        """
+
         frames = []
         while True:
             frame = self.rx_queue.take()
@@ -115,6 +235,30 @@ class CannelloniHandle:
         return frames
 
     def clear_received_can_frames(self):
+        """Save the processed files map to a JSON file.
+
+        Function parameters should be documented in the ``Args`` section. The
+        name of each parameter is required. The type and description of each
+        parameter is optional, but should be included if not obvious.
+
+        Args:
+            dictionary (dict): The processed files map.
+
+        Returns:
+            bool: True if successful, False otherwise.
+            The return type is optional and may be specified at the beginning of
+            the ``Returns`` section followed by a colon.
+            The ``Returns`` section may span multiple lines and paragraphs.
+            Following lines should be indented to match the first line.
+            The ``Returns`` section supports any reStructuredText formatting,
+            including literal blocks::
+                
+                {
+                'param1': param1,
+                'param2': param2
+                }
+        """
+
         while True:
             frame = self.rx_queue.take()
             if frame is None:
@@ -123,6 +267,30 @@ class CannelloniHandle:
 # ---------------------------- Execution ----------------------------
 # Run the Cannellonipy library
 def run_cannellonipy(handle, remote_addr, remote_port):
+    """Save the processed files map to a JSON file.
+
+    Function parameters should be documented in the ``Args`` section. The
+    name of each parameter is required. The type and description of each
+    parameter is optional, but should be included if not obvious.
+
+    Args:
+        dictionary (dict): The processed files map.
+
+    Returns:
+        bool: True if successful, False otherwise.
+        The return type is optional and may be specified at the beginning of
+        the ``Returns`` section followed by a colon.
+        The ``Returns`` section may span multiple lines and paragraphs.
+        Following lines should be indented to match the first line.
+        The ``Returns`` section supports any reStructuredText formatting,
+        including literal blocks::
+            
+            {
+            'param1': param1,
+            'param2': param2
+            }
+    """
+
     print("Running Cannellonipy...")
     handle.Init["remote_addr"] = remote_addr
     handle.Init["remote_port"] = int(remote_port)
@@ -146,6 +314,30 @@ def run_cannellonipy(handle, remote_addr, remote_port):
 
 # Create a UDP socket (send/receive)
 def open_udp_socket(handle):
+    """Save the processed files map to a JSON file.
+
+    Function parameters should be documented in the ``Args`` section. The
+    name of each parameter is required. The type and description of each
+    parameter is optional, but should be included if not obvious.
+
+    Args:
+        dictionary (dict): The processed files map.
+
+    Returns:
+        bool: True if successful, False otherwise.
+        The return type is optional and may be specified at the beginning of
+        the ``Returns`` section followed by a colon.
+        The ``Returns`` section may span multiple lines and paragraphs.
+        Following lines should be indented to match the first line.
+        The ``Returns`` section supports any reStructuredText formatting,
+        including literal blocks::
+            
+            {
+            'param1': param1,
+            'param2': param2
+            }
+    """
+
     try:
         handle.udp_pcb = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Check with cmd:  sudo tcpdump -i any udp port 1234 -X
         handle.udp_pcb.bind((handle.Init["remote_addr"], handle.Init["remote_port"]))
@@ -160,6 +352,30 @@ def open_udp_socket(handle):
 
 # Create a CAN socket (send/receive)
 def open_can_socket(handle):
+    """Save the processed files map to a JSON file.
+
+    Function parameters should be documented in the ``Args`` section. The
+    name of each parameter is required. The type and description of each
+    parameter is optional, but should be included if not obvious.
+
+    Args:
+        dictionary (dict): The processed files map.
+
+    Returns:
+        bool: True if successful, False otherwise.
+        The return type is optional and may be specified at the beginning of
+        the ``Returns`` section followed by a colon.
+        The ``Returns`` section may span multiple lines and paragraphs.
+        Following lines should be indented to match the first line.
+        The ``Returns`` section supports any reStructuredText formatting,
+        including literal blocks::
+            
+            {
+            'param1': param1,
+            'param2': param2
+            }
+    """
+
     try:
         # TODO
         if not handle.can_pcb:
@@ -173,6 +389,30 @@ def open_can_socket(handle):
 
 # Transmit CAN frames over UDP
 def transmit_udp_packets(handle):
+    """Save the processed files map to a JSON file.
+
+    Function parameters should be documented in the ``Args`` section. The
+    name of each parameter is required. The type and description of each
+    parameter is optional, but should be included if not obvious.
+
+    Args:
+        dictionary (dict): The processed files map.
+
+    Returns:
+        bool: True if successful, False otherwise.
+        The return type is optional and may be specified at the beginning of
+        the ``Returns`` section followed by a colon.
+        The ``Returns`` section may span multiple lines and paragraphs.
+        Following lines should be indented to match the first line.
+        The ``Returns`` section supports any reStructuredText formatting,
+        including literal blocks::
+            
+            {
+            'param1': param1,
+            'param2': param2
+            }
+    """
+
     try:
         while True:
             frame = handle.tx_queue.take()
@@ -189,6 +429,30 @@ def transmit_udp_packets(handle):
 
 # Receive UDP packets
 def receive_udp_packets(handle):
+    """Save the processed files map to a JSON file.
+
+    Function parameters should be documented in the ``Args`` section. The
+    name of each parameter is required. The type and description of each
+    parameter is optional, but should be included if not obvious.
+
+    Args:
+        dictionary (dict): The processed files map.
+
+    Returns:
+        bool: True if successful, False otherwise.
+        The return type is optional and may be specified at the beginning of
+        the ``Returns`` section followed by a colon.
+        The ``Returns`` section may span multiple lines and paragraphs.
+        Following lines should be indented to match the first line.
+        The ``Returns`` section supports any reStructuredText formatting,
+        including literal blocks::
+            
+            {
+            'param1': param1,
+            'param2': param2
+            }
+    """
+
     try:
         while True:
             data, addr = handle.udp_pcb.recvfrom(1024)
