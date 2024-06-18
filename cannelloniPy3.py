@@ -26,7 +26,9 @@ class FramesQueue:
         self.count = count
         self.frames = [CanfdFrame() for _ in range(count)]
 
-    def put(self, frame): 
+    def put(self, frame):
+        """        """
+ 
         if (self.tail + 1) % self.count == self.head:
             return None
         self.frames[self.tail] = frame
@@ -34,6 +36,8 @@ class FramesQueue:
         return frame
 
     def take(self):
+        """        """
+
         if self.head == self.tail:
             return None
         frame = self.frames[self.head]
@@ -41,6 +45,8 @@ class FramesQueue:
         return frame
 
     def peek(self):
+        """        """
+
         if self.head == self.tail:
             return None
         return self.frames[self.head]
@@ -65,6 +71,8 @@ class CannelloniHandle:
 
     # Handle the received Cannelloni frame
     def handle_cannelloni_frame(handle, data, addr):
+        """        """
+
         try:
             if len(data) < CANNELLONI_DATA_PACKET_BASE_SIZE:
                 print("Cannellonipy lib: Received incomplete packet")
@@ -105,6 +113,8 @@ class CannelloniHandle:
             return
 
     def get_received_can_frames(self):
+        """        """
+
         frames = []
         while True:
             frame = self.rx_queue.take()
@@ -115,6 +125,8 @@ class CannelloniHandle:
         return frames
 
     def clear_received_can_frames(self):
+        """        """
+
         while True:
             frame = self.rx_queue.take()
             if frame is None:
@@ -123,6 +135,8 @@ class CannelloniHandle:
 # ---------------------------- Execution ----------------------------
 # Run the Cannellonipy library
 def run_cannellonipy(handle, remote_addr, remote_port):
+    """    """
+
     print("Running Cannellonipy...")
     handle.Init["remote_addr"] = remote_addr
     handle.Init["remote_port"] = int(remote_port)
@@ -146,6 +160,8 @@ def run_cannellonipy(handle, remote_addr, remote_port):
 
 # Create a UDP socket (send/receive)
 def open_udp_socket(handle):
+    """    """
+
     try:
         handle.udp_pcb = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Check with cmd:  sudo tcpdump -i any udp port 1234 -X
         
@@ -161,6 +177,8 @@ def open_udp_socket(handle):
 
 # Create a CAN socket (send/receive)
 def open_can_socket(handle):
+    """    """
+
     try:
         # TODO
         if not handle.can_pcb:
@@ -174,6 +192,8 @@ def open_can_socket(handle):
 
 # Transmit CAN frames over UDP
 def transmit_udp_packets(handle):
+    """    """
+
     try:
         while True:
             frame = handle.tx_queue.take()
@@ -190,6 +210,8 @@ def transmit_udp_packets(handle):
 
 # Receive UDP packets
 def receive_udp_packets(handle):
+    """    """
+
     try:
         while True:
             data, addr = handle.udp_pcb.recvfrom(1024)
